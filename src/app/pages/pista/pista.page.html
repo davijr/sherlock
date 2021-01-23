@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" color="light">
+      <ion-back-button color="secondary"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="ion-no-padding" color="primary">
+
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col class="ion-text-center">
+        <div *ngIf="carregando">Carregando<span class="blink">...</span></div>
+        <div *ngIf="!carregando">
+          <ion-icon name="search" style="font-size: 120px;"></ion-icon>
+          <h1>
+            <ion-text color="danger">Pista {{ pista.numero}} - {{ pista.nome }}</ion-text>
+          </h1>
+          <h3>
+            Código: {{ pista.codigo }}
+          </h3>
+          <h5>
+            Link: <a href="{{ pista.link }}" target="_blank"><ion-text color="warning">{{ pista.link }}</ion-text></a>
+          </h5>
+          <p class="ion-text-center">
+            <!-- copiar -->
+            <ion-button color="dark" (click)="copiar()">
+              Copiar
+              <ion-icon slot="end" name="copy"></ion-icon>
+            </ion-button>
+            <!-- compartilhar -->
+            <ion-button color="light" (click)="compartilhar()">
+              Compartilhar
+              <ion-icon slot="end" name="share"></ion-icon>
+            </ion-button>
+          </p>
+          <p class="ion-text-center">
+            <ion-button color="success" rounded>
+              <a href="{{ pista.link }}" target="_blank">
+                Abrir pista
+                <ion-icon slot="end" name="ios-arrow-forward"></ion-icon>
+              </a>
+            </ion-button>
+          </p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

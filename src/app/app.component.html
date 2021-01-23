@@ -1,0 +1,30 @@
+<ion-app>
+  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+
+      <ion-header color="primary" class="ion-padding">
+        <ion-avatar style="margin: auto;">
+          <img src="assets/images/sherlock-walking.png">
+        </ion-avatar>
+        <h2 class="ion-text-center" color="secondary" style="font-family: 'Courier New', Courier, monospace;"><b>{{ usuario ? usuario.login : '' }}</b></h2>
+      </ion-header>
+
+      <ion-content color="primary">
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages" color="primary">
+          <ion-item color="primary" [routerDirection]="'forward'"
+                  [routerLink]="p.parametroUrl ? [p.url, p.parametroUrl] : [p.url]"
+                    lines="none" *ngIf="possuiPermissao(p)">
+            <ion-icon slot="start" [name]="p.icon"></ion-icon>
+            <ion-label>
+              {{p.title}}
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <p *ngIf="carregandoPermissoes" class="ion-text-center"><br />Carregando opções...</p>
+      </ion-content>
+
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

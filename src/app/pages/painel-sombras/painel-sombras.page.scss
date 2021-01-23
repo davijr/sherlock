@@ -1,0 +1,44 @@
+
+ion-toolbar {
+    ion-button {
+        padding-right: 10px;
+    }
+}
+
+ion-content {
+    --background: #eee;
+}
+
+ion-card {
+    --background: #fff;
+    cursor: pointer;
+}
+
+.card-edicao {
+    --background: #eee;
+    border: 2px solid gray;
+}
+
+.dark {
+    background-color: #000;
+    color: #fff;
+}
+
+.danger {
+    background-color: red;
+    color: #fff;
+}
+
+.gray {
+    background-color: #ccc;
+    color: #000;
+}
+
+.success {
+    background-color: green;
+    color: #fff;
+}
+
+.item-interactive-disabled .sc-ion-label-md-h {
+    opacity: 1 !important;
+}

@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Painel Pistas</ion-title>
+    <ion-button slot="end" shape="round" color="primary"
+                class="ion-align-items-end" (click)="listarPistas()">
+      Refresh
+    </ion-button>
+    <ion-button size="small" slot="end" shape="round" color="success" class="ion-align-items-end" (click)="criarPista()">
+      Criar
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <div *ngIf="!carregandoPistas">
+
+    <ion-row>
+      <ion-col size-md="4" *ngFor="let pista of pistas">
+        <!-- Painel para listagem -->
+        <ion-card *ngIf="!isEdicao(pista.key)">
+          <ion-card-header>
+            <ion-item class="no-line ion-no-padding">
+              <ion-label class="ion-text-large">
+                <ion-chip
+                  [ngClass]="{'success' : pista.ativa && !pista.numeroDuplicado,
+                              'danger' : pista.ativa && pista.numeroDuplicado,
+                              'gray' : !pista.ativa}"> 
+                  <ion-label><b>Pista #{{ pista.numero }}</b></ion-label>
+                </ion-chip>
+              </ion-label>
+              <ion-buttons>
+                <ion-button (click)="iniciarEdicao(pista)">
+                  <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <ion-buttons color="danger" *ngIf="false">
+                <ion-button>
+                  <ion-icon slot="icon-only" name="trash" (click)="removerPista(pista)"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <ion-toggle slot="end" color="success" [(ngModel)]="pista.ativa"
+                [disabled]="possuiNumeroDuplicado(pista)"
+                (click)="ativarDesativar(pista, pista.ativa ? false : true)"></ion-toggle>
+            </ion-item>
+            <ion-card-title>
+              <b>{{ pista.nome }}</b>
+            </ion-card-title>
+            <ion-card-subtitle><b>QRCode:</b> {{ pista.codigo }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="ion-padding">
+            <b>Link:</b> {{ pista.link }} <a *ngIf="pista.link" href="{{ pista.link }}" target="_blank">ABRIR</a>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Painel para edição -->
+        <ion-card size-md="4" *ngIf="isEdicao(pista.key)" class="card-edicao">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-chip><b>Pista #</b>
+                <ion-input [(ngModel)]="pistaEdicao[pista.key].numero" placeholder="00" style="width: 30px;"></ion-input>
+              </ion-chip><br />
+              <b>Nome:</b> <ion-input [(ngModel)]="pistaEdicao[pista.key].nome" placeholder="nome da pista"></ion-input>
+            </ion-card-title>
+            <ion-card-subtitle>
+              <b>QRCode:</b> <ion-input [(ngModel)]="pistaEdicao[pista.key].codigo" placeholder="texto do QRCode"></ion-input>
+              <ion-button size="small" color="light" (click)="gerarCodigo(pista)">Gerar código</ion-button>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <b>Link:</b> <ion-input [(ngModel)]="pistaEdicao[pista.key].link" placeholder="texto do QRCode"></ion-input>
+            <ion-button expand="block" color="danger" (click)="cancelarEdicao(pista.key)">Cancelar</ion-button>
+            <ion-button expand="block" color="success" (click)="alterarPista(pista.key)">Salvar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </div>
+</ion-content>

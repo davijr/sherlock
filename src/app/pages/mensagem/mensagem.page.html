@@ -1,0 +1,10 @@
+<ion-content fullscreen class="ion-no-padding" [color]="tipo">
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col class="ion-text-center">
+        <ion-icon name="{{tipo === 'success' ? 'search' : 'close-circle-outline'}}"></ion-icon>
+        <h1 [innerHTML]="msg"></h1>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

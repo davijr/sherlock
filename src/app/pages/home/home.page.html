@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar [class.show]="showToolbar" [class.hide]="!showToolbar">
+    <ion-buttons slot="start" color="light">
+      <ion-menu-button color="secondary"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-right" style="color: gray;">
+      <small>Versão 0.0.5</small>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="ion-padding" color="primary"
+             [scrollEvents]="true" (ionScroll)="onScroll($event)">
+
+  <!-- LOGO -->
+  <p class="ion-text-center" *ngIf="!carregando && possuiPermissao('painel-equipe')">
+    <img src="assets/images/logo.png" width="128" alt="WhatToDo">
+  </p>
+
+  <h3 class="ion-text-center" *ngIf="carregando"><b>Carregando<span class="blink">...</span></b></h3>
+
+  <div *ngIf="possuiPermissao('painel-sombra')">
+    <div *ngIf="!carregando">
+      <ion-row *ngIf="false">
+        <ion-col>
+          <ion-card color="secondary" (click)="verUsuarios('ativos')" style="cursor: pointer;">
+            <h1 class="ion-text-center">{{ qtdUsuariosAtivos }}<br /><small>Contas</small></h1>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card color="success" (click)="verUsuarios('online')" style="cursor: pointer;">
+            <h1 class="ion-text-center">{{ qtdUsuariosOnline }}<br /><small>Online</small></h1>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      
+      <h1 class="ion-text-center ion-no-padding ion-no-margin"><b (click)="comecarRelogio()">Missão Sherlock 2020</b></h1>
+      <p class="ion-text-center ion-no-padding ion-no-margin" style="color: yellow">Início 10:30 &nbsp;&nbsp; Fim: 1:37</p>
+      <p class="ion-text-center ion-no-padding ion-no-margin" style="font-size: 100px;">{{ getDataFormatada(relogio) }}</p>
+
+      <div *ngFor="let dados of dadosEquipes; let i = index" class="equipe-item">
+        <ion-row>
+          <ion-col size="2" class="ion-text-start" style="font-size: xx-large; color: gray">{{ i + 1 }}º</ion-col>
+          <ion-col size="4" class="ion-text-start" style="font-size: xx-large; padding-left: 0; margin-left: 0;">{{ dados.equipe }}</ion-col>
+          <ion-col size="6" class="ion-text-end" style="font-size: xx-large;">{{ getAvanco(dados.equipe, true) }}</ion-col>
+        </ion-row>
+        <ion-row class="ion-no-padding">
+          <ion-col size="1" class="ion-no-padding"></ion-col>
+          <ion-col class="ion-no-padding"><ion-progress-bar [color]="getCor( getAvanco(dados.equipe, false) )" [value]="getAvanco(dados.equipe, false)"
+                            [buffer]="getAvanco(dados.equipe, false)"></ion-progress-bar></ion-col>
+        </ion-row>
+        <hr />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="possuiPermissao('painel-equipe')">
+    <h3 class="ion-text-center" *ngIf="!carregando && (!pistas || pistas.length === 0)"><b>Você ainda não possui pistas.</b></h3>
+    <ion-card color="primary" *ngIf="!carregando && pistas && pistas.length > 0">
+      <ion-list lines="none">
+        <ion-item *ngFor="let pista of pistas; let i = index"
+                  [routerDirection]="'forward'" [routerLink]="['/pista', pista.key]">
+          <ion-icon name="eye" slot="end"></ion-icon>
+          <ion-label class="ion-text-nowrap">Pista Nº {{ pista.numero }} - {{ pista.nome }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="danger" (click)="scan()">
+        <ion-icon name="search"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+
+</ion-content>

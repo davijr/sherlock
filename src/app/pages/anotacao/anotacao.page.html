@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Anotações</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  fullscreen class="ion-padding" color="primary">
+  <!-- LOGO -->
+  <p class="ion-text-center">
+    <img src="assets/images/logo.png" width="128" alt="WhatToDo">
+  </p>
+  
+  <h3 class="ion-text-center" *ngIf="carregando"><b>Carregando<span class="blink">...</span></b></h3>
+
+  <div *ngIf="possuiPermissao('anotacao')">
+    <!-- <h3 class="ion-text-center" *ngIf="!carregando && (!equipes || equipes.length === 0)"><b>Você ainda não possui equipes.</b></h3> -->
+    <ion-card color="primary" *ngIf="!carregando && equipes && equipes.length > 0">
+      <ion-list lines="none">
+        <ion-item *ngFor="let equipe of equipes; let i = index" [routerDirection]="'forward'" [routerLink]="['/anotacao-equipe', equipe.login]">
+          <ion-icon name="document" slot="end"></ion-icon>
+          <ion-label class="ion-text-nowrap">{{ equipe.login }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+  </div>
+
+</ion-content>

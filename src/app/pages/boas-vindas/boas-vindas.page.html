@@ -1,0 +1,30 @@
+<ion-content color="primary" class="ion-padding">
+
+  <ion-grid height="100%">
+    <ion-row height="100%" class="ion-align-items-center ion-justify-content-center">
+      <ion-col size-md="3">
+        <div class="ion-text-center" *ngIf="carregando">
+          <h1>Carregando<div class="blink">...</div></h1>
+        </div>
+
+        <!-- LOGO -->
+        <p class="ion-text-center">
+          <img src="assets/images/logo.png" alt="Sherlock Game">
+        </p>
+
+        <h3 class="ion-text-center" color="secondary" [innerHTML]="msg"></h3>
+        <!-- <div color="warning" class="ion-text-center"><small>Vocês podem usar mais de um leitor.</small></div> -->
+
+        <br />
+        <div class="ion-text-center">
+          <ion-button color="danger" rounded (click)="onComecar()">
+            Começar
+            <ion-icon slot="end" name="ios-arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

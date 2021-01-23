@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" color="light">
+            <ion-back-button color="secondary"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+    <ion-button color="danger" (click)="validarPista('_')">
+        Scanneou! NÃO OK
+    </ion-button>
+
+    <div *ngFor="let i of [1,2,3,4,5,6,7]">
+        <ion-button color="success" (click)="validarPista('CODIGO_PISTA' + i)">
+            PISTA {{ i }}
+        </ion-button>
+        <br />
+    </div>
+
+</ion-content>

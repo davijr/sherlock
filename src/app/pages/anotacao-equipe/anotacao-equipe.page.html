@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Anotações: <ion-text color="danger">{{ equipe.login }}</ion-text></ion-title>
+    <ion-button slot="end" shape="round" color="success" class="ion-align-items-end" (click)="adicionarAnotacao()">
+      Criar
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen color="primary" class="ion-padding">
+  
+  <ion-grid height="100%" *ngIf="!anotacoes || anotacoes.length === 0">
+    <ion-row height="100%" class="ion-align-items-center ion-justify-content-center">
+      <ion-col size-md="3">
+        <h3 class="ion-text-center" *ngIf="carregando"><b>Carregando<span class="blink">...</span></b></h3>
+        <div class="ion-text-center" *ngIf="!carregando">
+          <h1>Essa equipe não possui anotações.</h1>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="!carregando && anotacoes && anotacoes.length > 0">
+    <ion-card class="ion-no-padding" *ngFor="let anotacao of anotacoes">
+      <ion-card-header>
+        <ion-card-title *ngIf="!anotacao.edicao" (click)="ativarEdicao(anotacao, true)">
+          {{ anotacao.titulo }}
+          <ion-icon slot="end" name="create" color="dark"></ion-icon>
+        </ion-card-title>
+        <div *ngIf="anotacao.edicao">
+          <ion-input spellcheck="false" [(ngModel)]="anotacao.titulo" placeholder="Motivo.."
+            color="dark" (keyup.enter)="proximoCampo()" class="ion-no-padding ion-no-margin ion-no-border"></ion-input>
+        </div>
+        <ion-card-subtitle (click)="ativarEdicao(anotacao, true)">
+          {{ anotacao.usuarioCriacao }} - {{ anotacao.dataCriacaoFormatada }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-text *ngIf="!anotacao.edicao">{{ anotacao.texto }}</ion-text>
+        <div *ngIf="anotacao.edicao">
+          <ion-textarea #anotacaoTexto spellcheck="false" [(ngModel)]="anotacao.texto" rows="4"
+            placeholder="Detalhes e observações..." color="dark" class="ion-no-padding ion-no-margin ion-no-border"></ion-textarea>
+          <div class="ion-text-right">
+            <ion-button shape="round" size="small" color="danger" (click)="onDeletarAnotacao(anotacao)">Excluir</ion-button>
+            <ion-button shape="round" size="small" color="dark" (click)="ativarEdicao(anotacao, false)">Cancelar</ion-button>
+            <ion-button shape="round" size="small" color="success" (click)="atualizarAnotacao(anotacao)">Salvar</ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

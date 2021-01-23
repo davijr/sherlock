@@ -1,0 +1,22 @@
+
+ion-toolbar {
+    ion-button {
+        padding-right: 10px;
+    }
+}
+
+ion-card, ion-card-header, ion-card-title {
+    --background: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
+ion-card-subtitle {
+    color: gray;
+}
+
+
+ion-input {
+    font-size: 20px;
+    --border-radius: 0;
+}

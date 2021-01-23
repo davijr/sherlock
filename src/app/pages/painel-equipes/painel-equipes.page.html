@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Painel Equipes</ion-title>
+    <ion-button slot="end" shape="round" color="primary"
+                class="ion-align-items-end" (click)="listarEquipes()">
+      Refresh
+    </ion-button>
+    <ion-button slot="end" shape="round" color="success" class="ion-align-items-end" (click)="criarEquipe()">
+      Criar
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <div *ngIf="!carregandoEquipes">
+
+    <ion-row>
+      <ion-col size-md="6" *ngFor="let equipe of equipes">
+        <!-- Painel para listagem -->
+        <ion-card *ngIf="!isEdicao(equipe.login)">
+          <ion-card-header>
+            <ion-item class="no-line ion-no-padding">
+              <ion-label class="ion-text-large">
+                <ion-chip
+                  [ngClass]="{'success' : equipe.ativa && !equipe.numeroDuplicado,
+                              'danger' : equipe.ativa && equipe.numeroDuplicado,
+                              'gray' : !equipe.ativa}"> 
+                  <ion-label><b>{{ equipe.login }}</b></ion-label>
+                </ion-chip>
+              </ion-label>
+              <ion-buttons>
+                <ion-button (click)="iniciarEdicao(equipe)">
+                  <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+                <ion-button (click)="iniciarExclusao(equipe)">
+                  <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <ion-buttons color="danger" *ngIf="false">
+                <ion-button>
+                  <ion-icon slot="icon-only" name="trash" (click)="removerEquipe(equipe)"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <ion-toggle slot="end" color="success" [(ngModel)]="equipe.ativa"
+                [disabled]="possuiNumeroDuplicado(equipe)"
+                (click)="ativarDesativar(equipe, equipe.ativa ? false : true)"></ion-toggle>
+            </ion-item>
+            <!-- <ion-card-title>
+              Senha: {{ equipe.nome }}
+            </ion-card-title> -->
+            <ion-card-subtitle>Senha: ********</ion-card-subtitle>
+          </ion-card-header>
+          <!-- <ion-card-content class="ion-padding">
+            Link: {{ equipe.link }} <a *ngIf="equipe.link" href="{{ equipe.link }}" target="_blank">ABRIR</a>
+          </ion-card-content> -->
+        </ion-card>
+
+        <!-- Painel para edição -->
+        <ion-card size-md="6" *ngIf="isEdicao(equipe.login)" class="card-edicao ion-no-padding">
+          <ion-card-header>
+              <ion-chip>
+                <b>Login:</b>
+                <ion-input [(ngModel)]="equipeEdicao[equipe.login].novoLogin" placeholder="login da equipe"></ion-input>
+              </ion-chip><br />
+              <ion-chip>
+                <b>Senha:</b>
+                <ion-input [(ngModel)]="equipeEdicao[equipe.login].senha" placeholder="senha da equipe"></ion-input>
+              </ion-chip>
+              <ion-button size="small" color="light" (click)="gerarSenha(equipe)">Gerar senha</ion-button>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Link: <ion-input [(ngModel)]="equipeEdicao[equipe.login].link" placeholder="texto do QRCode"></ion-input> -->
+            <ion-button expand="block" color="danger" (click)="cancelarEdicao(equipe.login)">Cancelar</ion-button>
+            <ion-button expand="block" color="success" (click)="alterarEquipe(equipe.login)">Salvar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </div>
+</ion-content>

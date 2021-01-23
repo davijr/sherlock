@@ -1,0 +1,7 @@
+"C:\Program Files\Java\jdk1.8.0_201\bin\keytool.exe" -genkey -v -keystore SHERLOCK_APP_KEYSTORE -alias SHERLOCK_APP_CHAVE -keyalg RSA -keysize 2048 -validity 10000
+
+
+Senha da assinatura: sherlock2020
+
+
+"C:\Program Files\Java\jdk1.8.0_201\bin\jarsigner.exe" -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore SHERLOCK_APP_KEYSTORE sherlock-release.apk SHERLOCK_APP_CHAVE
